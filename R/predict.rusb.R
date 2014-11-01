@@ -1,0 +1,60 @@
+#' rusboost
+#'
+#' Make predictions using a fitted RUSBoost model
+#' @param object Fitted model from \code{rusb}.
+#' @param newdata A new input data frame.
+#' @param newmfinal Number of trees in boosting object to be used in prediction. By default, all the trees in the object are used.
+#' @param ... Further arguments passed to or from other methods.
+#' @keywords rusb
+#' @export predict.rusb
+#' 
+#' 
+#' @return Returns an object of class \code{predict.boosting}:
+#' 
+#' @return  \code{formula}  original formula used
+#' @return  \code{votes}    the weighted number of trees which voted for each class
+#' @return  \code{prob}     probability measure calculated using the proportion of votes for each class
+#' @return  \code{class}    predicted class
+#' @return  \code{confusion} confusion matrix
+#' @return  \code{error}    average error
+#' 
+#' 
+predict.rusb <- function (object, newdata, newmfinal = length(object$trees), 
+          ...) 
+{
+  if (newmfinal > length(object$trees) | newmfinal < 1) 
+    stop("newmfinal must be 1<newmfinal<mfinal")
+  formula <- object$formula
+  vardep <- newdata[, as.character(object$formula[[2]])]
+  n <- length(newdata[, 1])
+  nclases <- nlevels(vardep)
+  pesos <- rep(1/n, n)
+  newdata <- data.frame(newdata, pesos)
+  pond <- object$weights[1:newmfinal]
+  pred <- data.frame(rep(0, n))
+  for (m in 1:newmfinal) {
+    if (m == 1) {
+      pred <- predict(object$trees[[m]], newdata, type = "class")
+    }
+    else {
+      pred <- data.frame(pred, predict(object$trees[[m]], 
+                                       newdata, type = "class"))
+    }
+  }
+  classfinal <- array(0, c(n, nlevels(vardep)))
+  for (i in 1:nlevels(vardep)) {
+    classfinal[, i] <- matrix(as.numeric(pred == levels(vardep)[i]), 
+                              nrow = n) %*% pond
+  }
+  predclass <- rep("O", n)
+  for (i in 1:n) {
+    predclass[i] <- as.character(levels(vardep)[(order(classfinal[i, 
+                                                                  ], decreasing = TRUE)[1])])
+  }
+  table <- table(predclass, vardep, dnn = c("Predicted Class", 
+                                            "Observed Class"))
+  error <- 1 - sum(predclass == vardep)/n
+  votosporc <- classfinal/apply(classfinal, 1, sum)
+  output <- list(formula = formula, votes = classfinal, prob = votosporc, 
+                 class = predclass, confusion = table, error = error)
+}

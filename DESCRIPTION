@@ -1,0 +1,20 @@
+Package: rusboost
+Title: Handle Unbalanced Classes with RUSBoost Algorithmins
+Version: 0.1
+Authors@R: person("Stephen", "Carnagua", email = "sacarnagua@gmail.com", role =
+    c("aut", "cre"))
+Description: This package is an adaptation of the AdaBoost.M1 implementation
+    from the 'adabag' package, which was authored by Esteban Alfaro-Cortes,
+    Matias Gamez-Martinez and Noelia Garcia-Rubiorandom. RUSBoost is an
+    algorithm created by Seiffert et al., which combines random undersampling
+    and AdaBoost. My contribution was to integrate the undersampling component
+    into the Adaboost function. Please see the 'adabag' package for more on how
+    AdaBoost works.
+Depends:
+    R (>= 3.0.2)
+License: GPL(>= 3)
+LazyData: true
+Date: 2014-09-02
+Imports:
+    rpart,
+    caret
