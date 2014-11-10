@@ -25,6 +25,7 @@ rusb <- function (formula, data, boot = FALSE, iters = 100, coeflearn = "Breiman
   }
   formula <- as.formula(formula)
   vardep <- data[, as.character(formula[[2]])]
+  vardep <- vardep[[1]]
   n <- nrow(data)
   indices <- 1:n
   n.negative <- sum(idx)
@@ -61,7 +62,7 @@ rusb <- function (formula, data, boot = FALSE, iters = 100, coeflearn = "Breiman
       flearn <- predict(fit, newdata = data, type = "class")
       # errors are a simple count of wrong predictions. 
       # This is called "pseudo loss" because its calculated on all observations, including ones which weren't in the model training.
-      ind <- as.numeric(vardep[[1]] != flearn)
+      ind <- as.numeric(vardep != flearn)
       # create overall error metric, which is simply vector multiplication of (observation weight)*(1 or 0)
       err <- as.numeric(w %*% ind)           
     }
@@ -71,7 +72,7 @@ rusb <- function (formula, data, boot = FALSE, iters = 100, coeflearn = "Breiman
       fit <- rpart(formula = formula, data = tmp.sample, 
                    weights = inner.tmp.weights, control = control)
       flearn <- predict(fit, newdata = data, type = "class")
-      ind <- as.numeric(vardep[[1]] != flearn)
+      ind <- as.numeric(vardep != flearn)
       err <- as.numeric(w %*% ind)           
     }
     
