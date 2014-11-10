@@ -26,7 +26,7 @@ predict.rusb <- function (object, newdata, newmfinal = length(object$trees),
     stop("newmfinal must be 1<newmfinal<mfinal")
   formula <- object$formula
   vardep <- newdata[, as.character(object$formula[[2]])]
-  #vardep <- vardep[[1]]
+  vardep <- vardep[[1]]
   n <- nrow(newdata)
   nclases <- nlevels(vardep)
   pesos <- rep(1/n, n)
