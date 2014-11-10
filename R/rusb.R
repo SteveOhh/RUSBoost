@@ -25,7 +25,7 @@ rusb <- function (formula, data, boot = FALSE, iters = 100, coeflearn = "Breiman
   }
   formula <- as.formula(formula)
   vardep <- data[, as.character(formula[[2]])]
-  n <- length(data[, 1])
+  n <- nrow(data)
   indices <- 1:n
   n.negative <- sum(idx)
   negatives <- data[idx,]
