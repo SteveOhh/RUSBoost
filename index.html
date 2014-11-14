@@ -46,7 +46,7 @@
 <p>The short version is that the algorithm is a powerful way to handle strongly unbalanced data, where one class is much more heavily represented than others--typically in binary situations, such as when an event does not occur in 90% of observations. When a dataset is unbalanced, learning algorithms tend to overpredict the majority class. Researchers like to counteract this tendency by oversampling minority class examples, undersampling majority class examples, or boosting. RUSBoost combines  the genius of adaptive boosting with the pragmatism of undersampling.</p>
 
 <h2>
-<a id="but-how" class="anchor" href="#but-how" aria-hidden="true"><span class="octicon octicon-link"></span></a>But how?</h2>
+<a id="but-how-does-it-work" class="anchor" href="#but-how-does-it-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>But how does it work?</h2>
 
 <p>Magic. Well, a little magic, but mostly through <a href="http://www.cs.princeton.edu/%7Eschapire/papers/explaining-adaboost.pdf">boosting</a>. AdaBoost is an ensemble method which creates models iteratively. After each round of model creation, errors are calculated and weights to training instances are reassigned, so that the instances which were incorrectly predicted are more important--and thus more likely to be correctly classified--in successive models. At the end, all of the models get to vote on which class they think each observation is, and the predictions output for new, unlabeled data are based on a weighted majority. RUSBoost is a tweak to AdaBoost. In each model creation iteration, the overrepresented class is undersampled, in order to better model the minority class(es). </p>
 
