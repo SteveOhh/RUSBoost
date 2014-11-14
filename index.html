@@ -31,26 +31,48 @@
       </header>
       <section>
         <h1>
-<a name="rusboost" class="anchor" href="#rusboost"><span class="octicon octicon-link"></span></a>RUSBoost</h1>
+<a id="rusboost" class="anchor" href="#rusboost" aria-hidden="true"><span class="octicon octicon-link"></span></a>RUSBoost</h1>
 
-<p>This package is an adaptation of the AdaBoost.M1 implementation
-from the 'adabag' package (Alfaro et al.). RUSBoost is an algorithm
-created by Seiffert et al., which combines random undersampling and 
-AdaBoost. My contribution was to integrate the undersampling component
-into the AdaBoost function. Please see the 'adabag' package for more on 
-how AdaBoost works.</p>
+<p>This package is an adaptation of the AdaBoost.M1 implementation from the 'adabag' package (Alfaro et al.). RUSBoost is an algorithm created by Seiffert et al., which combines random undersampling and AdaBoost. My contribution was to integrate the undersampling component into the AdaBoost function. </p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="what-does-it-do" class="anchor" href="#what-does-it-do" aria-hidden="true"><span class="octicon octicon-link"></span></a>What does it do?</h2>
+
+<p>With this package, you get two things. You can use the RUSBoost algorithm to model your data, and you can make predictions with the resulting model. </p>
+
+<h2>
+<a id="why-would-i-want-to-do-that" class="anchor" href="#why-would-i-want-to-do-that" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why would I want to do that?</h2>
+
+<p>The short version is that the algorithm is a powerful way to handle strongly unbalanced data, where one class is much more heavily represented than others--typically in binary situations, such as when an event does not occur in 90% of observations. When a dataset is unbalanced, learning algorithms tend to overpredict the majority class. Researchers like to counteract this tendency by oversampling minority class examples, undersampling majority class examples, or boosting. RUSBoost combines  the genius of adaptive boosting with the pragmatism of undersampling.</p>
+
+<h2>
+<a id="but-how" class="anchor" href="#but-how" aria-hidden="true"><span class="octicon octicon-link"></span></a>But how?</h2>
+
+<p>Magic. Well, a little magic, but mostly through <a href="http://en.wikipedia.org/wiki/AdaBoost">boosting</a>. AdaBoost is an ensemble method which creates models iteratively. After each round of model creation, errors are calculated and weights to training instances are reassigned, so that the instances which were incorrectly predicted are more important--and thus more likely to be correctly classified--in successive models. At the end, all of the models get to vote on which class they think each observation is, and the predictions output for new, unlabeled data are based on a weighted majority. RUSBoost is a tweak to AdaBoost. In each model creation iteration, the overrepresented class is undersampled, in order to better model the minority class(es). </p>
+
+<p>If you know what SMOTEBoost is, this is its cooler younger brother. It doesn't try as hard to be clever, and as a result it ends up being right more often and working less.</p>
+
+<h2>
+<a id="is-it-buggy" class="anchor" href="#is-it-buggy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Is it buggy?</h2>
+
+<p>Sorry Hadley, but it doesn't play well with the <code>tbl_df()</code> wrapper. Convert your <a href="https://twitter.com/hadleywickham/status/524200537861128192">tibble diffs</a> back to dataframes before feeding them into <code>rusb()</code>.</p>
+
+<p>For now, you can only use the function for two-class classification problems. It shouldn't be too hard to extend to multiple classes, and you're welcome to do so for me.</p>
+
+<p>Please let me know here or via email if you find other issues.</p>
+
+<h2>
+<a id="this-sounds-incredible-how-do-i-get-started" class="anchor" href="#this-sounds-incredible-how-do-i-get-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>This sounds INCREDIBLE. How do I get started?</h2>
 
 <p>Install using using devtools:</p>
 
-<div class="highlight highlight-R"><pre><span class="c1"># install.packages("devtools")</span>
-devtools<span class="o">::</span>install_github<span class="p">(</span><span class="s">"steveohh/rusboost"</span><span class="p">)</span>
-</pre></div>
+<div class="highlight highlight-R"><pre><span class="pl-c"><span class="pl-pdc">#</span> install.packages("devtools")</span>
+devtools<span class="pl-k">::</span>install_github(<span class="pl-s1"><span class="pl-pds">"</span>steveohh/rusboost<span class="pl-pds">"</span></span>)</pre></div>
+
+<p>It wouldn't hurt to read the paper, either. </p>
 
 <h2>
-<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>References</h2>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
 
 <ul>
 <li>Alfaro, E., Gamez, M. and Garcia, N. (2013): "adabag: An R Package for Classification with Boosting and Bagging". Journal of Statistical Software, Vol 54, 2, pp. 1-35.</li>
