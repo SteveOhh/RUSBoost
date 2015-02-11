@@ -19,7 +19,7 @@ Sorry Hadley, but it doesn't play well with the `tbl_df()` wrapper. Convert your
 
 For now, you can only use the function for two-class classification problems. It shouldn't be too hard to extend to multiple classes, and you're welcome to do so for me.
 
-Please let me know here or via email if you find other issues.
+Please let me know here (with an issue/pull request) or via email if you find other issues.
 
 ## This sounds INCREDIBLE. How do I get started?
 
