@@ -57,7 +57,7 @@ rusb <- function (formula, data, boot = FALSE, iters = 100, coeflearn = "Breiman
       bootstrap <- sample(1:t.s.l, replace = TRUE, prob = tmp.weights) #not sure if weights should be used, but they are in the adabag function.
       # train model on undersampled data
       fit <- rpart(formula, data = tmp.sample[bootstrap, ], 
-                   control = control, weights = inner.tmp.weights, control = control)
+                   control = control, weights = inner.tmp.weights)
       # save predicteded class from model fit. ***make predictions using the FULL sample
       flearn <- predict(fit, newdata = data, type = "class")
       # errors are a simple count of wrong predictions. 
