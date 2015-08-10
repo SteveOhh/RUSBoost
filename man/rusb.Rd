@@ -27,8 +27,22 @@ rusb(formula, data, boot = FALSE, iters = 100, coeflearn = "Breiman",
 Implement RUSBoost algorithm to deal with unbalanced classes in classification problems
 }
 \examples{
-idx <- data$outcome=="N"
-test.rusboost <- rusb(outcome ~ ., data = testdata, boot = F, iters = 20, sampleFraction = .01, idx = idx)
+library(rusboost)
+library(rpart)
+data(iris)
+
+# make it an unbalanced dataset by removing most of the setosa observations
+df <- iris[41:150,]
+
+# create binary variable
+df$Setosa <- factor(ifelse(df$Species == "setosa", "setosa", "notsetosa"))
+
+# create index of negative examples
+idx <- df$Setosa == "notsetosa"
+
+# run model
+test.rusboost <- rusb(Setosa ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+                      data = df, boot = F, iters = 20, sampleFraction = .1, idx = idx)
 }
 \keyword{rusb}
 
